@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container} from '@material-ui/core';
+import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container, Button} from '@material-ui/core';
 import firebase from '../../connection';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -16,6 +16,8 @@ export default class Tabela extends Component{
       atendimentos: [],
     };
 
+    this.excluirAtendimento = this.excluirAtendimento.bind(this);
+
     firebase.auth().onAuthStateChanged((logged) => {
       if(logged){        
         firebase.database().ref('Usuarios').child(logged.uid).once('value').then((snapshot)=> {
@@ -29,10 +31,12 @@ export default class Tabela extends Component{
       }
     })  
   }
-   
+  
+  excluirAtendimento(key){
+    firebase.database().ref('Atendimentos').child(key).remove();
+  }
   render(){
-    firebase.database().ref('Atendimentos').orderByChild('UBS').equalTo('Secretaria de Saúde').once('value', (snapshot)=>{
-      console.log(this.state.ubs + 'Dentro de Database');
+    firebase.database().ref('Atendimentos').orderByChild('UBS').equalTo(this.state.ubs).once('value', (snapshot)=>{
       let s = this.state;
       s.atendimentos = [];
       snapshot.forEach((childSnapshot)=>{
@@ -49,9 +53,6 @@ export default class Tabela extends Component{
     })
     return(
       <Container>
-        <div>
-          <h1>Seja bem vindo! {this.state.ubs}</h1>
-        </div>
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
             <TableHead>
@@ -73,7 +74,7 @@ export default class Tabela extends Component{
                   <TableCell align="right">{row.motivo}</TableCell>
                   <TableCell align="right">{row.atendimento}</TableCell>
                   <TableCell align="right">Botão editar</TableCell>
-                  <TableCell align="right">Botão Excluir</TableCell>
+                  <TableCell align="right"><Button color="secondary" variant="contained" onClick={() => this.excluirAtendimento(row.key) }>Excluir</Button></TableCell>
                 </TableRow>
               ))}
             </TableBody>
