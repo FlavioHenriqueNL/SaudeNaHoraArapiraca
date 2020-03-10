@@ -1,0 +1,14 @@
+/* AddAtendimento.js */
+.formulario{
+  position: absolute;
+  width: 900px;
+  background: #fff;
+  padding: 20px;
+  top: 25%;
+  left: 20%;
+}
+
+/* Index.js */
+.atendimentoComponent{
+  float: right;
+}

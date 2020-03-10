@@ -1,9 +1,10 @@
 import React from 'react';
-import{Button, TextField, FormControlLabel, Checkbox, Link, Box, Typography, Container, CssBaseline} from '@material-ui/core';
+import {Button, TextField, FormControlLabel, Checkbox, Link, Box, Typography, Container, CssBaseline} from '@material-ui/core';
 import {withRouter} from 'react-router-dom';
 import firebase from '../../connection';
 import logo from './img/logo.png';
 import './style.css';
+
 class Login extends React.Component {
 
   state = {
@@ -34,7 +35,7 @@ class Login extends React.Component {
 
   render(){
     return (
-      <Container component="main" maxWidth="xs">
+      <Container className="Container" component="main" maxWidth="xs">
         <CssBaseline />
         <div className="box">
           

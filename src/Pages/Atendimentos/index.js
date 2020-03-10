@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container, Button} from '@material-ui/core';
+import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, 
+        Container, Button, Grid} from '@material-ui/core';
 import firebase from '../../connection';
 import { makeStyles } from '@material-ui/core/styles';
-
-import Fc from '../../Components/AddAtendimento';
+import AddAtendimento from './AddAtendimento';
 
 export default class Tabela extends Component{
 
@@ -24,8 +24,6 @@ export default class Tabela extends Component{
           let s = this.state;
           s.ubs = snapshot.val().UBS;
           s.nome = snapshot.val().nome;
-          
-          console.log(s.ubs + 'dentro de database Users');
           this.setState(s);
         });      
       }
@@ -53,6 +51,15 @@ export default class Tabela extends Component{
     })
     return(
       <Container>
+        <Grid container spacing={3} alignItems="center">
+          <Grid item xs={6} >
+              Lista de Atendimentos
+              Unidade {this.state.ubs}
+          </Grid>
+          <Grid item xs={6} >
+            <AddAtendimento className="atendimentoComponent"/>
+          </Grid>
+        </Grid>
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
             <TableHead>
@@ -61,7 +68,6 @@ export default class Tabela extends Component{
                 <TableCell align="right">Procedência</TableCell>
                 <TableCell align="right">Motivo</TableCell>
                 <TableCell align="right">Atendimento</TableCell>
-                <TableCell align="right">Editar</TableCell>
                 <TableCell align="right">Excluir</TableCell>
               </TableRow>
             </TableHead>
@@ -73,14 +79,12 @@ export default class Tabela extends Component{
                   <TableCell align="right">{row.procedencia}</TableCell>
                   <TableCell align="right">{row.motivo}</TableCell>
                   <TableCell align="right">{row.atendimento}</TableCell>
-                  <TableCell align="right">Botão editar</TableCell>
                   <TableCell align="right"><Button color="secondary" variant="contained" onClick={() => this.excluirAtendimento(row.key) }>Excluir</Button></TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-        <Fc/>
       </Container>
 
     );

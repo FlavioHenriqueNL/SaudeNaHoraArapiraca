@@ -6,7 +6,7 @@ import Header from '../Components/Header/Header';
 
 // Importando as páginas
 import Login from '../Pages/Login';
-import teste from '../Pages/Teste';
+import Atendimentos from '../Pages/Atendimentos';
 
 export default class RouterNavigation extends React.Component{
   render(){
@@ -21,7 +21,7 @@ export default class RouterNavigation extends React.Component{
         </div>
 
         <Switch>
-          <ProtectedRoute exact authenticated={this.props.authenticated} path="/" component={teste} />
+          <ProtectedRoute exact authenticated={this.props.authenticated} path="/" component={Atendimentos} />
           <Route authenticated={this.props.authenticated} path="/login" component={Login} />
         </Switch>
       </Router>
