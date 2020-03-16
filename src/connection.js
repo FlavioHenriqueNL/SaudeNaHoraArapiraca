@@ -15,4 +15,4 @@ firebase.analytics();
 
 export default firebase;
 
-//Teste de commit.
+//Teste de commit 2.
