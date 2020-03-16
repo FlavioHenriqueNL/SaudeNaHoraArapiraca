@@ -1,12 +1,24 @@
-import Logout from '../Logout';
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, {useState} from "react";
 import {AppBar, Toolbar, Container} from '@material-ui/core';
-import logo from './img/logo.png';
-import MenuLateral from './Drawer';
+import { makeStyles } from "@material-ui/core/styles";
 
-export default function ButtonAppBar() {
+import firebase from '../../connection';
+import Logout from '../Logout';
+import MenuLateral from './Drawer';
+import logo from './img/logo.png';
+
+export default function HeaderNavbar() {
   const classes = useStyles();
+  const [administrador, setAdministrador] = useState(false);
+
+  firebase.auth().onAuthStateChanged((logged) => {
+    if(logged){        
+      firebase.database().ref('Usuarios').child(logged.uid).once('value').then((snapshot)=> {
+        const administrador = snapshot.val().administrador;
+        setAdministrador(administrador);
+      });      
+    }
+  })  
 
   return (
     <div className={classes.root}>
@@ -14,7 +26,7 @@ export default function ButtonAppBar() {
         <Container>
           <Toolbar className={classes.toolbar}>
             <div className={classes.menuContainer}>
-              <MenuLateral/>
+              {administrador ? <MenuLateral/> : null}
               <div>
                 <img src={logo} alt="Saúde na Hora" width="150px" height="auto" />
               </div>
@@ -54,9 +66,4 @@ const useStyles = makeStyles(theme => ({
   MenuIcon:{
     fontSize: '3.0rem'
   },
-  buttonLogout: {
-    border: 'none',
-    background: 'none',
-    color: '#1C5A94',
-  }
 }));

@@ -27,6 +27,11 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(side, false)}
     >
       <List>
+        <ListItem button onClick={() => alert("Funcionalidade em desenvolvimento")}>
+          <ListItemText>Adicionar Usuário</ListItemText>
+        </ListItem>
+      </List>
+      {/* <List>
         {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
           <ListItem button onClick={() => alert("Teste")} key={text}>              
             <ListItemText primary={text} />
@@ -40,7 +45,7 @@ export default function TemporaryDrawer() {
             <ListItemText primary={text} />
           </ListItem>
         ))}
-      </List>
+      </List> */}
     </div>
   );
 

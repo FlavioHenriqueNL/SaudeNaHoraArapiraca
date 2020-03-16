@@ -41,9 +41,3 @@ const TabelaAtendimento  = ({lista}) => {
 };
 
 export default TabelaAtendimento;
-
-  
-  
-      
-    
-  
