@@ -14,3 +14,5 @@ firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
 export default firebase;
+
+//Teste de commit.
