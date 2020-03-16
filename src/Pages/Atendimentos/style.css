@@ -7,8 +7,46 @@
   top: 25%;
   left: 20%;
 }
+.formulario h1{
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+  font-size: 30px;
+  text-transform: uppercase;
+  color: #1C5A94;
+
+}
 
 /* Index.js */
 .atendimentoComponent{
   float: right;
+}
+.tituloSecao{
+  padding: 25px 0;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bolder;
+}
+.tituloSecao h1{
+  font-size: 25px;
+  
+  color: #1C5A94;
+  margin-bottom: 5px;
+}
+.tituloSecao h1 span{
+  color: #009C77;
+}
+.tituloSecao h2{
+  color: #1C5A94;
+  font-size: 20px;
+}
+.tituloSecao h2 span{
+  color: #009C77;
+}
+
+/* TabelaAtendimento.js */
+.tableHead{
+  background: #009C77;
+}
+
+.tableCell{
+  color: #fff !important;
 }

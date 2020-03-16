@@ -53,5 +53,10 @@ const useStyles = makeStyles(theme => ({
   },
   MenuIcon:{
     fontSize: '3.0rem'
+  },
+  buttonLogout: {
+    border: 'none',
+    background: 'none',
+    color: '#1C5A94',
   }
 }));

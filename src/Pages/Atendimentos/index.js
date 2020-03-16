@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, 
-        Container, Button, Grid} from '@material-ui/core';
+import {Container, Button, Grid } from '@material-ui/core';
 import firebase from '../../connection';
-import { makeStyles } from '@material-ui/core/styles';
 import AddAtendimento from './AddAtendimento';
+import TabelaAtendimento from './TabelaAtendimento';
+import moment from 'moment';
 
 export default class Tabela extends Component{
 
@@ -15,8 +15,6 @@ export default class Tabela extends Component{
       ubs: '...',
       atendimentos: [],
     };
-
-    this.excluirAtendimento = this.excluirAtendimento.bind(this);
 
     firebase.auth().onAuthStateChanged((logged) => {
       if(logged){        
@@ -30,61 +28,38 @@ export default class Tabela extends Component{
     })  
   }
   
-  excluirAtendimento(key){
-    firebase.database().ref('Atendimentos').child(key).remove();
-  }
   render(){
     firebase.database().ref('Atendimentos').orderByChild('UBS').equalTo(this.state.ubs).once('value', (snapshot)=>{
       let s = this.state;
       s.atendimentos = [];
       snapshot.forEach((childSnapshot)=>{
-        this.state.atendimentos.push({
-          key: childSnapshot.key,
-          nome: childSnapshot.val().nomePaciente,
-          procedencia: childSnapshot.val().procedencia,
-          motivo: childSnapshot.val().motivo,
-          atendimento: childSnapshot.val().tipoAtendimento
-        });
-
+        if(childSnapshot.val().dataAtendimento === moment().format('L')){
+          this.state.atendimentos.push({
+            key: childSnapshot.key,
+            nome: childSnapshot.val().nomePaciente,
+            procedencia: childSnapshot.val().procedencia,
+            motivo: childSnapshot.val().motivo,
+            atendimento: childSnapshot.val().tipoAtendimento
+          });
+        }
       });
       this.setState(s);
     })
     return(
       <Container>
-        <Grid container spacing={3} alignItems="center">
-          <Grid item xs={6} >
-              Lista de Atendimentos
-              Unidade {this.state.ubs}
+        <Grid className="tituloSecao" container spacing={3} alignItems="center">
+          <Grid item xs={9} >
+              <h1>Lista de Atendimentos
+              da Unidade: <span>{this.state.ubs}</span> </h1>
+              <h2>Realizados no dia: <span>{moment().format('DD[/]MM[/]YYYY')}</span> </h2>
           </Grid>
-          <Grid item xs={6} >
+          <Grid item xs={3} >
             <AddAtendimento className="atendimentoComponent"/>
           </Grid>
         </Grid>
-        <TableContainer component={Paper}>
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Nome do Paciente</TableCell>
-                <TableCell align="right">Procedência</TableCell>
-                <TableCell align="right">Motivo</TableCell>
-                <TableCell align="right">Atendimento</TableCell>
-                <TableCell align="right">Excluir</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {this.state.atendimentos.map(row => (
-                <TableRow key={row.key}>
-                  
-                  <TableCell align="left">{row.nome}</TableCell>
-                  <TableCell align="right">{row.procedencia}</TableCell>
-                  <TableCell align="right">{row.motivo}</TableCell>
-                  <TableCell align="right">{row.atendimento}</TableCell>
-                  <TableCell align="right"><Button color="secondary" variant="contained" onClick={() => this.excluirAtendimento(row.key) }>Excluir</Button></TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+
+        <TabelaAtendimento lista={this.state.atendimentos} />
+
       </Container>
 
     );

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import firebase from '../../connection';
 import {Grid, TextField, Button, Modal, InputLabel, FormControl, Select, MenuItem} from '@material-ui/core';
+import moment from 'moment';
 
 import './style.css';
 
@@ -20,9 +21,6 @@ export default class addAtendimento extends Component{
       listaAtendimentos: ['Médico', 'Enfermagem', 'Odontológico', 'Vacinas',
                          'Curativos', 'Citologia', 'Teste rápido', 'Outros']
     }
-
-    
-
     this.adicionarUsuario = this.adicionarUsuario.bind(this);
     this.abrirModal = this.abrirModal.bind(this);
     this.fecharModal = this.fecharModal.bind(this);
@@ -61,7 +59,8 @@ export default class addAtendimento extends Component{
       nomePaciente: this.state.nomePaciente,
       procedencia: this.state.procedencia,
       motivo: this.state.motivo,
-      tipoAtendimento: this.state.atendimento
+      tipoAtendimento: this.state.atendimento,
+      dataAtendimento: moment().format('L')
     });
     e.target.reset();
   }
@@ -81,7 +80,7 @@ export default class addAtendimento extends Component{
            
 
             <form className="formulario" onSubmit={this.adicionarUsuario}>
-            <h1>Adicionar atendimento</h1>
+              <h1>Adicionar atendimento</h1>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <TextField fullWidth required label="Nome do Paciente" variant="outlined" margin="normal" onChange = {e => this.setState({nomePaciente: e.target.value})} />
